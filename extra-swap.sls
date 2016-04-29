@@ -8,7 +8,7 @@ create-swap-file:
      Let's see if this solves that issue.
   #}
   cmd.run:
-    - name: dd if=/dev/zero of={{ swapfile }} bs=1024 count=1M
+    - name: [ -a {{ swapfile }} ] || fallocate -l 1024M /swapfile
 
 make-swap:
   cmd.run:
