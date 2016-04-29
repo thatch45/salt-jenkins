@@ -9,7 +9,7 @@ create-swap-file:
   #}
   cmd.run:
     - name: 'fallocate -l 1024M /swapfile'
-    - onlyif: '[ -a {{ swapfile }} ]'
+    - unless: '[ -a {{ swapfile }} ]'
 
 make-swap:
   cmd.run:
