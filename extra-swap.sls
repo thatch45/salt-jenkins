@@ -8,12 +8,13 @@ create-swap-file:
      Let's see if this solves that issue.
   #}
   cmd.run:
-    - name: '[ -a {{ swapfile }} ] || fallocate -l 1024M /swapfile'
+    - name: 'fallocate -l 1024M /swapfile'
+  onlyif: '[ -a {{ swapfile }} ]'
 
 make-swap:
   cmd.run:
     - name: mkswap {{ swapfile }}
-    - require:
+    - onchanges:
       - cmd: create-swap-file
 
 
@@ -21,5 +22,5 @@ add-extra-swap:
   mount.swap:
     - name: {{ swapfile }}
     - persist: False
-    - require:
+    - onchanges:
       - cmd: make-swap
